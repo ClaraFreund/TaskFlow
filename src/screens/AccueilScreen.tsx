@@ -1,7 +1,8 @@
 import TacheCard, { type Task } from "@/components/TacheCard";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const tasks: Task[] = [
   {
@@ -44,47 +45,57 @@ const tasks: Task[] = [
 export default function AccueilScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedView style={styles.heroSection}>
-        <ThemedText type="title" style={styles.title}>
-          Bienvenue sur&nbsp;TaskFlow
-        </ThemedText>
-        <ThemedText type="subtitle" style={styles.subtitle}>
-          Liste de vos tâches en cours
-        </ThemedText>
-      </ThemedView>
-      <ScrollView
-        style={styles.safeArea}
-        contentContainerStyle={{ gap: 12, padding: 16 }}
-      >
-        {tasks.map((task) => (
-          <TacheCard key={task.id} task={task} />
-        ))}
-      </ScrollView>
-      {/* <FlatList
-        data={tasks}
-        renderItem={({ item }) => <TacheCard task={item} />}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ gap: 12, padding: 16 }}
-      /> */}
+      <SafeAreaView style={styles.safeArea} edges={["top", "bottom"]}>
+        <ThemedView style={styles.heroSection}>
+          <ThemedText type="title" style={styles.title}>
+            Bienvenue sur&nbsp;TaskFlow
+          </ThemedText>
+          <ThemedText type="subtitle" style={styles.subtitle}>
+            Liste de vos tâches en cours
+          </ThemedText>
+        </ThemedView>
+        <ScrollView
+          style={styles.taskList}
+          contentContainerStyle={styles.taskListContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {tasks.map((task) => (
+            <TacheCard key={task.id} task={task} />
+          ))}
+        </ScrollView>
+      </SafeAreaView>
     </ThemedView>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 16,
   },
   safeArea: {
     flex: 1,
-    paddingHorizontal: 16,
+    width: "100%",
+    alignSelf: "stretch",
+    paddingHorizontal: 20,
   },
-  heroSection: {},
+  heroSection: {
+    gap: 8,
+    paddingTop: 16,
+    paddingBottom: 20,
+  },
   title: {
-    marginTop: 16,
+    fontSize: 32,
+    lineHeight: 38,
   },
   subtitle: {
-    marginTop: 8,
     fontSize: 16,
+    lineHeight: 22,
   },
-};
+  taskList: {
+    flex: 1,
+  },
+  taskListContent: {
+    gap: 12,
+    paddingBottom: 20,
+  },
+});
