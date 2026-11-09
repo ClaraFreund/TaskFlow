@@ -1,10 +1,11 @@
-import TacheCard, { type Task } from "@/components/TacheCard";
+import TacheCard from "@/components/TacheCard";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { ScrollView, StyleSheet } from "react-native";
+import { useState } from "react";
+import { Button, FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const tasks: Task[] = [
+const taskList = [
   {
     title: "Préparer le projet",
     id: 1,
@@ -41,6 +42,7 @@ const tasks: Task[] = [
     status: false,
   },
 ];
+const [tasks, setTasks] = useState(taskList);
 
 export default function AccueilScreen() {
   return (
@@ -54,15 +56,29 @@ export default function AccueilScreen() {
             Liste de vos tâches en cours
           </ThemedText>
         </ThemedView>
-        <ScrollView
+        <Button
+          title={"Nouvelle tâche"}
+          onPress={() => {
+            setTasks([
+              ...tasks,
+              {
+                title: "Nouvelle tâche",
+                id: tasks.length + 1,
+                category: "Travail",
+                description: "Description de la nouvelle tâche.",
+                status: false,
+              },
+            ]);
+          }}
+        />
+        <FlatList
           style={styles.taskList}
           contentContainerStyle={styles.taskListContent}
           showsVerticalScrollIndicator={false}
-        >
-          {tasks.map((task) => (
-            <TacheCard key={task.id} task={task} />
-          ))}
-        </ScrollView>
+          data={tasks}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <TacheCard task={item} />}
+        />
       </SafeAreaView>
     </ThemedView>
   );

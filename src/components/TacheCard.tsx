@@ -29,6 +29,21 @@ export default function TacheCard({ task }: { task: Task }) {
           task.status = !taskStatus; // Update the task status
         }}
       />
+      <Button
+        title={"Supprimer la tâche"}
+        onPress={() => {
+          setTasks([
+            ...tasks,
+            {
+              title: "Nouvelle tâche",
+              id: tasks.length + 1,
+              category: "Travail",
+              description: "Description de la nouvelle tâche.",
+              status: false,
+            },
+          ]);
+        }}
+      />
     </View>
   );
 }
