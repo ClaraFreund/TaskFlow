@@ -74,11 +74,13 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
+    flexDirection: "column",
     width: "100%",
     alignSelf: "stretch",
     paddingHorizontal: 20,
   },
   heroSection: {
+    flexShrink: 0,
     gap: 8,
     paddingTop: 16,
     paddingBottom: 20,
@@ -95,6 +97,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   taskListContent: {
+    flexDirection: "column",
+    alignItems: "stretch",
     gap: 12,
     paddingBottom: 20,
   },
